@@ -4,7 +4,7 @@ micronaut:
 
 datasources:
   default:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/yu_takasaki}
+    url: ${POSTGRES_URL:`jdbc:postgresql://localhost:5432/yu_takasaki`}
     driverClassName: org.postgresql.Driver
     username: ${POSTGRES_USERNAME:yu_takasaki}
     password: ${POSTGRES_PASSWORD:yu_takasaki}
