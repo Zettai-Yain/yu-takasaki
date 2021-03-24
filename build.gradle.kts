@@ -78,13 +78,18 @@ tasks {
             useIR = true
         }
     }
+
     compileTestKotlin {
         kotlinOptions {
             jvmTarget = "14"
         }
     }
 
+    jar {
+        exclude("application-*.yml")
+    }
+
     shadowJar {
-        minimize()
+        exclude("application-*.yml")
     }
 }
