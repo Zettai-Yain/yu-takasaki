@@ -2,22 +2,12 @@ micronaut:
   application:
     name: Yu Takasaki
 
-datasources:
-  default:
-    url: ${POSTGRES_URL:`jdbc:postgresql://localhost:5432/yu_takasaki`}
-    driverClassName: org.postgresql.Driver
-    username: ${POSTGRES_USERNAME:yu_takasaki}
-    password: ${POSTGRES_PASSWORD:yu_takasaki}
-    dialect: POSTGRES
-
-jpa:
-  default:
-    properties:
-      hibernate:
-        bytecode:
-          provider: none
-
-flyway:
-  datasources:
-    default:
-      enabled: true
+  metrics:
+    enabled: ${metrics.enabled:true}
+    export:
+      influx:
+        enabled: true
+        uri: ${influx.uri:`http://localhost:8086`}
+        org: ${influx.org:zettai-yain}
+        bucket: ${influx.bucket:yu_takasaki}
+        token: ${influx.token}

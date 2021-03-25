@@ -15,6 +15,8 @@ val jdaVersion = project.properties["jdaVersion"]
 repositories {
     mavenCentral()
     jcenter()
+
+    maven("https://repo.spring.io/libs-snapshot")
 }
 
 micronaut {
@@ -43,15 +45,19 @@ dependencies {
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
 
     implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut:micronaut-management")
     implementation("io.micronaut:micronaut-http-client")
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.swagger.core.v3:swagger-annotations")
 
-    implementation("io.micronaut.flyway:micronaut-flyway")
-    implementation("io.micronaut.data:micronaut-data-jdbc")
-    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
-    implementation("io.micronaut.sql:micronaut-hibernate-jpa")
-    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-core")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-registry-influx")
+    constraints {
+        implementation("io.micrometer:micrometer-core:1.7.0-M1")
+        implementation("io.micrometer:micrometer-registry-influx:1.7.0-M1") {
+            because("Required for Influx2.0 Support")
+        }
+    }
 
     implementation("net.dv8tion:JDA:${jdaVersion}") {
         exclude(null, "opus-java")

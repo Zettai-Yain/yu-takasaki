@@ -1,10 +1,10 @@
-package com.nanabell.nico.takasaki.listener
+package com.nanabell.nico.takasaki.metrics
 
 import com.nanabell.nico.takasaki.config.JDAConfig
-import com.nanabell.nico.takasaki.entity.ReactionAuditEntity
-import com.nanabell.nico.takasaki.service.ReactionAuditService
+import io.micrometer.core.instrument.MeterRegistry
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Requires
+import io.micronaut.core.util.StringUtils
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent
@@ -14,10 +14,14 @@ import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
 @Context
-@Requires(beans = [ReactionAuditService::class])
-class ReactionRemovedListener(private val jda: JDA, private val service: ReactionAuditService, private val config: JDAConfig) : EventListener {
+@Requires(property = "micronaut.metrics.enabled", value = StringUtils.TRUE)
+class ReactionRemovedMeter(
+    private val jda: JDA,
+    private val config: JDAConfig,
+    private val metrics: MeterRegistry
+) : EventListener {
 
-    private val logger = LoggerFactory.getLogger(ReactionRemovedListener::class.java)
+    private val logger = LoggerFactory.getLogger(ReactionRemovedMeter::class.java)
 
     @PostConstruct
     fun initialize() {
@@ -26,11 +30,13 @@ class ReactionRemovedListener(private val jda: JDA, private val service: Reactio
     }
 
     override fun onEvent(event: GenericEvent) {
-        if (event !is GuildMessageReactionRemoveEvent) return
-        if (event.guild.idLong != config.guild) return
+        if (event !is GuildMessageReactionRemoveEvent || event.guild.idLong != config.guild) return
 
-        val audit = ReactionAuditEntity(event)
-        service.persist(audit)
+        metrics.counter("reaction.removed",
+            "user", event.userId,
+            "emote", if (!event.reactionEmote.isEmote) event.reactionEmote.asCodepoints else event.reactionEmote.id,
+            "message", event.messageId
+        ).increment()
 
         logger.debug("GuildMessageReactionRemoveEvent from ${event.user} -> ${event.messageId} with ${event.reactionEmote}")
     }
