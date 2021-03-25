@@ -1,3 +1,5 @@
+import kotlin.collections.listOf
+
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.4.31"
     id("org.jetbrains.kotlin.kapt") version "1.4.31"
@@ -91,5 +93,15 @@ tasks {
     shadowJar {
         exclude("application-*.yml")
         mergeServiceFiles()
+    }
+
+    dockerBuild {
+        dependsOn(shadowJar)
+
+        dockerFile.set(file("${project.projectDir}/Dockerfile"))
+        images.set(listOf(
+            "registry.zettai-yain.dev/${project.name}:${project.version}",
+            "registry.zettai-yain.dev/${project.name}"
+        ))
     }
 }
