@@ -29,6 +29,12 @@ micronaut {
     }
 }
 
+kapt {
+    arguments {
+        arg("micronaut.openapi.views.spec", "swagger-ui.enabled=true,swagger-ui.theme=flattop")
+    }
+}
+
 dependencies {
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut.openapi:micronaut-openapi")
