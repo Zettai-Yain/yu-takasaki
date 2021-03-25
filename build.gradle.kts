@@ -27,14 +27,9 @@ micronaut {
     }
 }
 
-allOpen {
-    annotation("io.micronaut.aop.Around")
-}
-
 dependencies {
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut.openapi:micronaut-openapi")
-    kapt("io.micronaut.data:micronaut-data-processor")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -62,7 +57,6 @@ dependencies {
         exclude(null, "opus-java")
     }
 
-    runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
