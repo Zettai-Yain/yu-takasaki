@@ -90,5 +90,6 @@ tasks {
 
     shadowJar {
         exclude("application-*.yml")
+        mergeServiceFiles()
     }
 }
