@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.4.31"
     id("org.jetbrains.kotlin.kapt") version "1.4.31"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.4.31"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.4.31"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("io.micronaut.application") version "1.3.4"
 }
@@ -38,6 +39,7 @@ kapt {
 dependencies {
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut.openapi:micronaut-openapi")
+    kapt("io.micronaut.data:micronaut-data-processor")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -61,10 +63,17 @@ dependencies {
         }
     }
 
+    implementation("io.micronaut.flyway:micronaut-flyway")
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("io.micronaut.sql:micronaut-hibernate-jpa")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+
     implementation("net.dv8tion:JDA:${jdaVersion}") {
         exclude(null, "opus-java")
     }
 
+    runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 }

@@ -20,3 +20,23 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+
+datasources:
+  default:
+    url: ${postgres.url:`jdbc:postgresql://localhost:5432/yu_takasaki`}
+    driverClassName: org.postgresql.Driver
+    username: ${postgres.username:yu_takasaki}
+    password: ${postgres.password:yu_takasaki}
+    dialect: POSTGRES
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        bytecode:
+          provider: none
+
+flyway:
+  datasources:
+    default:
+      enabled: true
