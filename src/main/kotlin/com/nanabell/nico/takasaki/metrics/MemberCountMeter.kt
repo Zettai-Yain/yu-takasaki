@@ -25,24 +25,16 @@ class MemberCountMeter(
     private val logger = LoggerFactory.getLogger(MemberCountMeter::class.java)
     private var metadata: Guild.MetaData = Guild.MetaData(-1, -1, -1, -1)
 
-    private val memberMeter = Gauge.builder("guild") { metadata.approximateMembers }
-        .description("Current Members in the Guild. This value might not be 100% accurate!")
-        .tag("type", "member")
-        .baseUnit("Member")
-        .register(registry)
-
-    private val presenceMeter = Gauge.builder("guild") { metadata.approximatePresences }
-        .description("Current Members in the Guild. This value might not be 100% accurate!")
-        .tag("type", "presence")
-        .baseUnit("Member")
-        .register(registry)
+    private val memberMeter = Gauge.builder("users.total") { metadata.approximateMembers }.register(registry)
+    private val presenceMeter = Gauge.builder("users.online") { metadata.approximatePresences }.register(registry)
 
     @PostConstruct
     fun init() {
         logger.info("Starting Scheduler for ${this::class.java.simpleName}")
+        scheduled()
     }
 
-    @Scheduled(initialDelay = "5s", fixedRate = "5m")
+    @Scheduled(fixedRate = "5m")
     fun scheduled() {
         logger.debug("Refreshing MemberCountMeter")
         val guild = jda.getGuildById(config.guild)
