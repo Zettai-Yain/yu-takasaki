@@ -42,7 +42,7 @@ class MemberCountMeter(
         logger.info("Starting Scheduler for ${this::class.java.simpleName}")
     }
 
-    @Scheduled(initialDelay = "30s", fixedRate = "5m")
+    @Scheduled(initialDelay = "5s", fixedRate = "5m")
     fun scheduled() {
         logger.debug("Refreshing MemberCountMeter")
         val guild = jda.getGuildById(config.guild)
