@@ -32,12 +32,7 @@ class ReactionRemovedMeter(
     override fun onEvent(event: GenericEvent) {
         if (event !is GuildMessageReactionRemoveEvent || event.guild.idLong != config.guild) return
 
-        metrics.counter("reaction.removed",
-            "user", event.userId,
-            "emote", if (!event.reactionEmote.isEmote) event.reactionEmote.asCodepoints else event.reactionEmote.id,
-            "message", event.messageId
-        ).increment()
-
+        metrics.counter("reaction.removed", "user", event.userId, "message", event.messageId).increment()
         logger.info("GuildMessageReactionRemoveEvent from ${event.user} -> ${event.messageId} with ${event.reactionEmote}")
     }
 
