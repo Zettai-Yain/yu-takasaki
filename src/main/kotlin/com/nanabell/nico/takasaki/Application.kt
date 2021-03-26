@@ -30,7 +30,7 @@ class Application {
 
         environment.getProperty("micronaut.metrics.enabled", Boolean::class.java, false)!!.let {
             when (it) {
-                true -> logger.info("Metrics Reporting is enabled, Please ensure you have configured a Metrics export!")
+                true -> logger.info("Metrics Reporting is enabled, Please ensure you have configured the Influx export!")
                 false -> logger.warn("Metrics Reporting is disabled! No Metrics will be collected!")
             }
         }
