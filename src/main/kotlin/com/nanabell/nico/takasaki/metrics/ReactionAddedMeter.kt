@@ -38,7 +38,7 @@ class ReactionAddedMeter(
             "message", event.messageId
         ).increment()
 
-        logger.debug("GuildMessageReactionAddEvent from ${event.user} -> ${event.messageId} with ${event.reactionEmote}")
+        logger.info("GuildMessageReactionAddEvent from ${event.user} -> ${event.messageId} with ${event.reactionEmote}")
     }
 
     @PreDestroy
