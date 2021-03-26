@@ -32,7 +32,9 @@ class ReactionAddedMeter(
     override fun onEvent(event: GenericEvent) {
         if (event !is GuildMessageReactionAddEvent || event.guild.idLong != config.guild) return
 
-        metrics.counter("reaction.added", "user", event.userId, "message", event.messageId).increment()
+        metrics.counter("user.reaction", "type", "add", "user", event.userId).increment()
+        metrics.counter("message.reaction", "type", "add", "message_identifier", "${event.channel.id}/${event.messageId}").increment()
+
         logger.info("GuildMessageReactionAddEvent from ${event.user} -> ${event.messageId} with ${event.reactionEmote}")
     }
 
