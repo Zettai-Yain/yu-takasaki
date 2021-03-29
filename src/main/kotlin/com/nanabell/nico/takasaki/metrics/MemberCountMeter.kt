@@ -31,10 +31,9 @@ class MemberCountMeter(
     @PostConstruct
     fun init() {
         logger.info("Starting Scheduler for ${this::class.java.simpleName}")
-        scheduled()
     }
 
-    @Scheduled(fixedRate = "5m")
+    @Scheduled(initialDelay = "2s", fixedRate = "5m")
     fun scheduled() {
         logger.debug("Refreshing MemberCountMeter")
         val guild = jda.getGuildById(config.guild)
@@ -43,7 +42,9 @@ class MemberCountMeter(
             return
         }
 
-        metadata = guild.retrieveMetaData().complete()
-        logger.info("Submitted MemberCount [${presenceMeter.value().toInt()}/${memberMeter.value().toInt()}] to MetricsRegistry")
+        guild.retrieveMetaData().queue {
+            metadata = it
+            logger.info("Submitted MemberCount [${presenceMeter.value().toInt()}/${memberMeter.value().toInt()}] to MetricsRegistry")
+        }
     }
 }
