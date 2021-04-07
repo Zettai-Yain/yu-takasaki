@@ -5,13 +5,9 @@ micronaut:
   metrics:
     enabled: ${metrics.enabled:true}
     export:
-      influx:
+      prometheus:
         enabled: true
-        step: ${inflix.step:PT1M}
-        uri: ${influx.uri:`http://localhost:8086`}
-        org: ${influx.org:zettai-yain}
-        bucket: ${influx.bucket:yu_takasaki}
-        token: ${influx.token}
+        descriptions: true
 
   router:
     static-resources:
@@ -21,6 +17,10 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+
+endpoints:
+  prometheus:
+    sensitive: false
 
 datasources:
   default:

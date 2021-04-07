@@ -55,13 +55,7 @@ dependencies {
     implementation("io.swagger.core.v3:swagger-annotations")
 
     implementation("io.micronaut.micrometer:micronaut-micrometer-core")
-    implementation("io.micronaut.micrometer:micronaut-micrometer-registry-influx")
-    constraints {
-        implementation("io.micrometer:micrometer-core:1.7.0-M1")
-        implementation("io.micrometer:micrometer-registry-influx:1.7.0-M1") {
-            because("Required for Influx2.0 Support")
-        }
-    }
+    implementation("io.micronaut.micrometer:micronaut-micrometer-registry-prometheus")
 
     implementation("io.micronaut.flyway:micronaut-flyway")
     implementation("io.micronaut.data:micronaut-data-jdbc")
