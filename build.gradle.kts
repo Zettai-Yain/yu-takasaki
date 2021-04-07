@@ -105,9 +105,6 @@ tasks {
     }
 
     dockerBuild {
-        dependsOn(shadowJar)
-
-        dockerFile.set(file("${project.projectDir}/Dockerfile"))
         images.set(listOf(
             "registry.zettai-yain.dev/${project.name}:${project.version}",
             "registry.zettai-yain.dev/${project.name}"
