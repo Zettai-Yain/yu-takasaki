@@ -50,7 +50,7 @@ class MemberCountMeter(
 
         guild.retrieveMetaData().queue {
             metadata = it
-            logger.info("Submitted MemberCount [${presenceMeter.value().toInt()}/${memberMeter.value().toInt()}] to MetricsRegistry")
+            logger.debug("Updating MemberCount [${presenceMeter.value().toInt()}/${memberMeter.value().toInt()}]")
         }
     }
 }
