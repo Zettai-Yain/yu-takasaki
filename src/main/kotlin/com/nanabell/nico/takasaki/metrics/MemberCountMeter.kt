@@ -25,8 +25,14 @@ class MemberCountMeter(
     private val logger = LoggerFactory.getLogger(MemberCountMeter::class.java)
     private var metadata: Guild.MetaData = Guild.MetaData(-1, -1, -1, -1)
 
-    private val memberMeter = Gauge.builder("users.total") { metadata.approximateMembers }.register(registry)
-    private val presenceMeter = Gauge.builder("users.online") { metadata.approximatePresences }.register(registry)
+    private val memberMeter = Gauge.builder("users.total") { metadata.approximateMembers }
+        .description("Total amount of Discord Users")
+        .register(registry)
+
+
+    private val presenceMeter = Gauge.builder("users.online") { metadata.approximatePresences }
+        .description("Amount of Discord Users which are currently Online")
+        .register(registry)
 
     @PostConstruct
     fun init() {
